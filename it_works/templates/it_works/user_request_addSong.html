@@ -1,0 +1,119 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mike Kerr</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+  /* CSS */
+  .button-85 {
+    padding: 0.6em 2em;
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button-85:before {
+    content: "";
+    background: linear-gradient(
+      45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing-button-85 20s linear infinite;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+  
+  @keyframes glowing-button-85 {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 400% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+  
+  .button-85:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #222;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+  }
+  </style>
+
+</head>
+<body>
+
+<script>
+function validateForm() {
+  var x = document.forms["myForm"]["song"].value;
+  if (x == "") {
+    alert("Name must be filled out");
+    return false;
+  }
+}
+</script>
+
+<!-- partial:index.partial.html -->
+<div class="wrapper">
+  <div class="profile-card js-profile-card">
+    <div class="profile-card__img">
+      <img src="{% static 'Mike.jpeg' %}" alt="profile card">
+    </div>
+
+    <div class="profile-card__cnt js-profile-cnt">
+      <div class="profile-card__name">Mike Kerr</div>
+      <h5>Singer, Songwriter & Performer</h5>
+      <div class="profile-card__txt">Add New Song <strong>Here</strong></div>
+      
+        <form id="myForm" method="POST" action="{% url 'it_works:addSongs' %}" onsubmit="return validateForm()" required>
+          {% csrf_token %}
+            <p><b>Song Name</b></p>
+            <input type="text" name="song">
+            <p><input type="submit" class="button-85" value="Submit"></p>
+        </form>
+ 
+  </div>
+</div>
+<script  src="{% static 'script.js' %}"></script>
+
+</body>
+</html>
