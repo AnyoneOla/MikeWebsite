@@ -86,7 +86,7 @@ def searchSong(request):
     x = database.child('Songs').get().val()
     song_data = []
     for i in x:
-        song_data.append(i['song'])
+        song_data.append(x[i]['song'])
     op = []
     for i in song_data:
         if song in i:
