@@ -1,5 +1,5 @@
 from pathlib import Path
-import environ
+#import environ
 import os
 
 # env = environ.Env(
@@ -8,13 +8,10 @@ import os
 # )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DEBUG = env('DEBUG')
+DEBUG = False#env('DEBUG')
 SECRET_KEY = '!4ois0xd2#h+0@8$zrp2u92s@w#27q$3ue1&2x$yy9@ms44gso'
 
-if DEBUG:
-    ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]"]
-else:
-    ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
