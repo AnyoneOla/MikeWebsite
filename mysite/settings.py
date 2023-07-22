@@ -1,5 +1,5 @@
 from pathlib import Path
-# import environ
+import environ
 import os
 
 # env = environ.Env(
@@ -8,7 +8,7 @@ import os
 # )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DEBUG = False#env('DEBUG')
+DEBUG = env('DEBUG')
 SECRET_KEY = '!4ois0xd2#h+0@8$zrp2u92s@w#27q$3ue1&2x$yy9@ms44gso'
 
 if DEBUG:
