@@ -27,5 +27,5 @@
         "dest": "mysite/wsgi.py"
       }
     ],
-    "outputDirectory": "staticfiles"
+    "outputDirectory": "staticfiles/static"
   }
