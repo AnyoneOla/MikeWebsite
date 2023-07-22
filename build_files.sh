@@ -28,4 +28,6 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
 echo "Giving permission to files..."
-chmod 777 .
+chmod 777 name_list.txt
+chmod 777 song_list.txt
+chmod 777 songs.txt
