@@ -1,38 +1,50 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
+import pyrebase
+
+config = {
+    "apiKey": "AIzaSyDGFUpZTmtZdjzuoSsLDlspfMt2TM-MDPc",
+    "authDomain": "abcd-1564836707355.firebaseapp.com",
+    "databaseURL": "https://abcd-1564836707355-default-rtdb.firebaseio.com/",
+    "projectId": "abcd-1564836707355",
+    "storageBucket": "abcd-1564836707355.appspot.com",
+    "messagingSenderId": "18942703899",
+    "appId": "1:18942703899:web:cfafec3b8c4d63d1117bbe",    
+}
+
+
+firebase = pyrebase.initialize_app(config)
+authe = firebase.auth()
+database = firebase.database()
+
+
 
 def write_column(name,song):
-    f = open('song_list.txt','a')
-    f.write(song)
-    f.close()
-    f = open('name_list.txt','a')
-    f.write(name)
-    f.close()
+    data = {'name':name,'song':song}
+    database.child("Data").push(data)
 
 def index(request):
-    f = open('songs.txt','r')
-    song_data = f.readlines()
-    f.close()
-    temp = []
+    song_data = []
+    x = database.child('Data').get().val()
+    for i in x:
+        song_data.append(x[i]['song'])
     contex = {}
-    for i in range(len(song_data)):
-        temp.append({'song':song_data[i][0:-1]})
-    contex['data'] = temp
+    contex['data'] = song_data
     return render(request, 'it_works/user_request_form.html',contex)
 
 
 def requested_songs(request):
-    f = open('song_list.txt','r')
-    song_data = f.readlines()
-    f.close()
-    f = open('name_list.txt','r')
-    name_data = f.readlines()
-    f.close()
+    name_data = []
+    song_data = []
+    x = database.child('Data').get().val()
+    for i in x:
+        name_data.append(x[i]['name'])
+        song_data.append(x[i]['song'])
     temp = []
     contex = {}
     for i in range(len(song_data)):
-        temp.append({'name':name_data[i][0:-1],
-                    'song':song_data[i][0:-1]})
+        temp.append({'name':name_data[i],
+                    'song':song_data[i]})
     contex['data'] = temp
     print(contex)
     return render(request, 'it_works/user_request_list.html',contex)
@@ -42,7 +54,7 @@ def songRequest(request):
         name = request.POST['name']
         song = request.POST['song']
         print(song)
-        write_column(name+'\n',song+'\n')
+        write_column(name,song)
     return render(request, 'it_works/user_request_thanks.html')
 
 def addSongsPage(request):
@@ -51,29 +63,32 @@ def addSongsPage(request):
 def addSongs(request):
     if request.method=="POST":
         song = request.POST['song']
-        f = open('songs.txt','a')
-        f.write(song+'\n')
-        f.close()
+        data = {'Song':song}
+        database.child("Songs").push(data)
     return render(request,'it_works/song_added_success.html')
 
 def clearListPage(request):
     return render(request,'it_works/user_request_confirm_delete.html')
 
 def clearList(request):
-    f = open('song_list.txt','w')
-    f.close()
-    f = open('name_list.txt','w')
-    f.close()
+    x = database.child('Data').get().val()
+    l = len(x.keys())
+    cnt = 0
+    for i in x.keys():
+        if cnt==l-1:
+            break
+        database.child("Data").child(i).remove()
+        cnt+=1
     return render(request, 'it_works/user_request_list.html')
 
 def searchSong(request):
     song = request.GET.get('song')
-    f = open('songs.txt','r')
-    song_data = f.readlines()
-    f.close()
+    x = database.child('Songs').get().val()
+    song_data = []
+    for i in x:
+        song_data.append(i['song'])
     op = []
     for i in song_data:
         if song in i:
             op.append(i)
     return JsonResponse({'status':200, 'data':op})
-    
