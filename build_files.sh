@@ -28,4 +28,4 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
 echo "Installing..."
-pip install pyrebase4
+pip install pyrebase
