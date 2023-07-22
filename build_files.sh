@@ -27,4 +27,4 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
-python -m pip install pyrebase4
+python -m pip install pyrebase
