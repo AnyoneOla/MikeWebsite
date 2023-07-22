@@ -120,5 +120,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 # Configures the staticfiles directory to serve
 # static files from /static/ on our deployment
-STATIC_ROOT = os.path.join(
-    BASE_DIR, 'staticfiles', 'static')
